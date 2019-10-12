@@ -1,7 +1,7 @@
 package com.google.play.developerapi.samples
 
-import com.google.api.client.util.Preconditions
-import com.google.api.client.util.Strings
+import com.google.api.client.repackaged.com.google.common.base.Preconditions
+import com.google.api.client.repackaged.com.google.common.base.Strings
 import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl.PACKAGE_NAME
 import org.apache.commons.logging.LogFactory
 

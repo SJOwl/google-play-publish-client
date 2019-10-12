@@ -17,7 +17,7 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
-    implementation("com.google.apis:google-api-services-androidpublisher:v3-rev20190910-1.30.1")
+    implementation("com.google.apis:google-api-services-androidpublisher:v3-rev103-1.25.0")
     implementation(group = "com.google.api-client", name = "google-api-client-extensions", version = "1.6.0-beta")
     implementation(group = "com.google.oauth-client", name = "google-oauth-client-java6", version = "1.11.0-beta")
     implementation(group = "com.google.oauth-client", name = "google-oauth-client-jetty", version = "1.11.0-beta")

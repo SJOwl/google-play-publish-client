@@ -11,7 +11,7 @@ import java.io.File
 import java.io.IOException
 import java.net.URISyntaxException
 import java.security.GeneralSecurityException
-import java.util.ArrayList
+import java.util.*
 
 /**
  * Uploads an apk to the alpha track.
@@ -20,7 +20,8 @@ object UploadApk {
 
     private val log = LogFactory.getLog(UploadApk::class.java)
 
-    @JvmStatic fun main(args: Array<String>) {
+    @JvmStatic
+    fun main(args: Array<String>) {
 
         println("config file = ${propertiesPath(args)}")
         val config = PublishConfig(propertiesPath(args))
@@ -28,8 +29,10 @@ object UploadApk {
         ApkManager(config).copyFiles()
 
         try {
-            Preconditions.checkArgument(!Strings.isNullOrEmpty(config.packageName),
-                "packageName cannot be null or empty!")
+            Preconditions.checkArgument(
+                !Strings.isNullOrEmpty(config.packageName),
+                "packageName cannot be null or empty!"
+            )
 
             // Create the API service.
             val service = AndroidPublisherHelper(config).init(
@@ -39,9 +42,11 @@ object UploadApk {
 
             // Create a new edit to make changes to your listing.
             val editRequest = edits
-                .insert(config.packageName,
+                .insert(
+                    config.packageName,
                     null
-                    /** no content  */)
+                    /** no content  */
+                )
             val edit = editRequest.execute()
             val editId = edit.id
             log.info(String.format("Created edit with id: %s", editId))
@@ -51,30 +56,44 @@ object UploadApk {
             val apkFile = FileContent(AndroidPublisherHelper.MIME_TYPE_APK, File(apkPath))
             val uploadRequest = edits
                 .apks()
-                .upload(config.packageName,
+                .upload(
+                    config.packageName,
                     editId,
-                    apkFile)
+                    apkFile
+                )
             val apk = uploadRequest.execute()
-            log.info(String.format("Version code %d has been uploaded",
-                apk.versionCode))
+            log.info(
+                String.format(
+                    "Version code %d has been uploaded",
+                    apk.versionCode
+                )
+            )
 
             // Assign apk to alpha track.
             val apkVersionCodes = ArrayList<Long>()
             apkVersionCodes.add(java.lang.Long.valueOf(apk.versionCode!!.toLong()))
             val updateTrackRequest = edits
                 .tracks()
-                .update(config.packageName,
+                .update(
+                    config.packageName,
                     editId,
                     config.track,
                     Track().setReleases(
-                        listOf(TrackRelease()
-                            .setName(config.trackReleaseName)
-                            .setVersionCodes(apkVersionCodes)
-                            .setStatus("completed")
-                            .setReleaseNotes(listOf(LocalizedText()
-                                .setLanguage(config.releaseNotesLanguage)
-                                .setText(config.releaseNotesText))))
-                    ))
+                        listOf(
+                            TrackRelease()
+                                .setName(config.trackReleaseName)
+                                .setVersionCodes(apkVersionCodes)
+                                .setStatus("completed")
+                                .setReleaseNotes(
+                                    listOf(
+                                        LocalizedText()
+                                            .setLanguage(config.releaseNotesLanguage)
+                                            .setText(config.releaseNotesText)
+                                    )
+                                )
+                        )
+                    )
+                )
             val updatedTrack = updateTrackRequest.execute()
             log.info(String.format("Track %s has been updated.", updatedTrack.track))
 
