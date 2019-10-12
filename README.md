@@ -29,4 +29,5 @@ usListingFullDescription=Listing full description
 listingsPromoVideo=link to YouTube
 ```
 ### 3. Launch `fatJar` gradle task
-### 4. `java -jar applicatio/google-play-client/build/libs/google-play-client-1.0.0.jar path/to/config.properties`
+### 4. Launch jar
+`java -jar applicatio/google-play-client/build/libs/google-play-client-1.0.0.jar path/to/config.properties`
